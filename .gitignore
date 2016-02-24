@@ -1,5 +1,6 @@
 ARM Flash Debug
 ARM Flash Debug/*
 *.bak
+*.bak.*
 *.hzp
 *.hzs
