@@ -3,83 +3,98 @@
 
 void init_keypad()
 {
-    PINSEL0 = 0;
-    // PINSEL2 = 0;
+	PINSEL0 = 0;
 
-    IO0DIR = 0x000003FF;
-    IO1DIR = 0x00780000;
+	IO0DIR = 0x000003FF;
+	IO1DIR = (1 << ROW_1) | (1 << ROW_2) | (1 << ROW_3) | (1 << ROW_4);
 }
 
 
 /**
-    TODO make this work right
+	TODO make this work right
 */
 char wait_and_get_key()
 {
-    while (true)
-    {
-        IO1CLR |= (1 << 19); // "row 1 low"?
-        IO1SET |= (1 << 20) | (1 << 21) | (1 << 22); // "rest 1"?
+	while (true)
+	{
+		IO1CLR |= (1 << ROW_4);
+		IO1SET |= (1 << ROW_3) | (1 << ROW_2) | (1 << ROW_1);
 
-        if (!get_pin_value_1(16)) {
-            while (!get_pin_value_1(16)); // don't return until key is released
-            return '1';
-        }
-        if (!get_pin_value_1(17)) {
-            while (!get_pin_value_1(17));
-            return '2';
-        }
-        if (!get_pin_value_1(18)) {
-            while (!get_pin_value_1(18));
-            return '3';
-        }
+		if (!get_pin_value_1(COL_4)) {
+			while (!get_pin_value_1(COL_4));
+			return 'D';
+		}
+		if (!get_pin_value_1(COL_3)) {
+			while (!get_pin_value_1(COL_3));
+			return '#';
+		}
+		if (!get_pin_value_1(COL_2)) {
+			while (!get_pin_value_1(COL_2));
+			return '0';
+		}
+		if (!get_pin_value_1(COL_1)) {
+			while (!get_pin_value_1(COL_1));
+			return '*';
+		}
 
-        IO1CLR |= (1 << 20);
-        IO1SET |= (1 << 21) | (1 << 22) | (1 << 19);
+		IO1CLR |= (1 << ROW_3);
+		IO1SET |= (1 << ROW_2) | (1 << ROW_4) | (1 << ROW_1);
 
-        if (!get_pin_value_1(16)) {
-            while (!get_pin_value_1(16));
-            return '4';
-        }
-        if (!get_pin_value_1(17)) {
-            while (!get_pin_value_1(17));
-            return '5';
-        }
-        if (!get_pin_value_1(18)) {
-            while (!get_pin_value_1(18));
-            return '6';
-        }
+		if (!get_pin_value_1(COL_4)) {
+			while (!get_pin_value_1(COL_4));
+			return 'C';
+		}
+		if (!get_pin_value_1(COL_3)) {
+		   while	(!get_pin_value_1(COL_3));
+		   return	'9';
+		}
+		if (!get_pin_value_1(COL_2)) {
+			while (!get_pin_value_1(COL_2));
+			return '8';
+		}
+		if (!get_pin_value_1(COL_1)) {
+			while (!get_pin_value_1(COL_1));
+			return '7';
+		}
 
-        IO1CLR |= (1 << 21);
-        IO1SET |= (1 << 22) | (1 << 20) | (1 << 19);
+		IO1CLR |= (1 << ROW_2);
+		IO1SET |= (1 << ROW_4) | (1 << ROW_3) | (1 << ROW_1);
 
-        if (!get_pin_value_1(16)) {
-            while (!get_pin_value_1(16));
-            return '7';
-        }
-        if (!get_pin_value_1(17)) {
-           while (!get_pin_value_1(17));
-           return '8';
-        }
-        if (!get_pin_value_1(18)) {
-            while (!get_pin_value_1(18));
-            return '9';
-        }
+		if (!get_pin_value_1(COL_4)) {
+			while (!get_pin_value_1(COL_4));
+			return 'B';
+		}
+		if (!get_pin_value_1(COL_3)) {
+			while (!get_pin_value_1(COL_3));
+			return '6';
+		}
+		if (!get_pin_value_1(COL_2)) {
+			while (!get_pin_value_1(COL_2));
+			return '5';
+		}
+		if (!get_pin_value_1(COL_1)) {
+			while (!get_pin_value_1(COL_1));
+			return '4';
+		}
 
-        IO1CLR |= (1 << 22);
-        IO1SET |= (1 << 19) | (1 << 20) | (1 << 21);
+		IO1CLR |= (1 << ROW_1); // "row 1 low"?
+		IO1SET |= (1 << ROW_4) | (1 << ROW_3) | (1 << ROW_2); // "rest 1"?
 
-        if (!get_pin_value_1(16)) {
-            while (!get_pin_value_1(16));
-            return '*';
-        }
-        if (!get_pin_value_1(17)) {
-            while (!get_pin_value_1(17));
-            return '0';
-        }
-        if (!get_pin_value_1(18)) {
-            while (!get_pin_value_1(18));
-            return '#';
-        }
-    }
+		if (!get_pin_value_1(COL_4)) {
+			while (!get_pin_value_1(COL_4)); // don't return until key is released
+			return 'A';
+		}
+		if (!get_pin_value_1(COL_3)) {
+			while (!get_pin_value_1(COL_3));
+			return '3';
+		}
+		if (!get_pin_value_1(COL_2)) {
+			while (!get_pin_value_1(COL_2));
+			return '2';
+		}
+		if (!get_pin_value_1(COL_1)) {
+			while (!get_pin_value_1(COL_1));
+			return '1';
+		}
+	}
 }
