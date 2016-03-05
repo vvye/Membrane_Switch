@@ -1,7 +1,7 @@
 #include "keypad.h"
 
 
-void init_keypad()
+void Keypad_Init()
 {
 	PINSEL0 = 0;
 
@@ -10,16 +10,13 @@ void init_keypad()
 }
 
 
-/**
-	TODO make this work right
-*/
-char wait_and_get_key()
+char Keypad_WaitAndGetKey()
 {
 	while (true)
 	{
 		IO1CLR |= (1 << ROW_4);
 		IO1SET |= (1 << ROW_3) | (1 << ROW_2) | (1 << ROW_1);
-
+ 
 		if (!get_pin_value_1(COL_4)) {
 			while (!get_pin_value_1(COL_4));
 			return 'D';

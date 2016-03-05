@@ -10,7 +10,7 @@
 
 
 typedef enum {
-	COL_4 = 16,
+	COL_4 = 18,
 	COL_3 = COL_4 + 1,
 	COL_2,
 	COL_1,
@@ -21,6 +21,6 @@ typedef enum {
 } KEYPAD_PIN;
 
 
-void init_keypad();
+void Keypad_Init();
 
-char wait_and_get_key();
+char Keypad_WaitAndGetKey();
