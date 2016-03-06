@@ -1,31 +1,41 @@
 #include "gpio.h"
 
 
-void init_pin_0(int pin)
+void GPIO_InitPin(int high, ...)
 {
-    IO0DIR |= (1 << pin);
+    volatile unsigned long *reg = (high ? &IO1DIR : &IO0DIR);
+
+    int pin;
+    va_list argp;
+    va_start(argp, high);
+
+    while ((pin = va_arg(argp, int)) != 0) {
+        *reg |= (1 << pin);
+    }
+
+    va_end(argp);
 }
 
 
-void init_pin_1(int pin)
+int GPIO_GetPinValue(int high, int pin)
 {
-    IO1DIR |= (1 << pin);
+    return *(high ? &IO1PIN : &IO0PIN) & (1 << pin);
 }
 
 
-int get_pin_value_0(int pin)
+void GPIO_SetPinValue(int high, int status, ...)
 {
-    return (IO0PIN & (1 << pin));
-}
+    volatile unsigned long *reg = (high
+    ? (status ? &IO1CLR : &IO1SET)
+    : (status ? &IO0CLR : &IO0SET));
 
+    int pin;
+    va_list argp;
+    va_start(argp, high);
 
-int get_pin_value_1(int pin)
-{
-    return (IO1PIN & (1 << pin));
-}
+    while ((pin = va_arg(argp, int)) != 0) {
+        *reg |= (1 << pin);
+    }
 
-
-void set_pin_value(int pin, int status)
-{
-    *(status ? &IO0CLR : &IO0SET) |= (1 << pin);
+    va_end(argp);
 }
