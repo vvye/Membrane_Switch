@@ -1,6 +1,14 @@
+/*
+    The keypad driver.
+*/
+
+
 #include "keypad.h"
 
-
+/**
+	Initializes the keypad.
+	This function must be called once before the keypad can be used.
+*/
 void Keypad_Init()
 {
     PINSEL0 = 0;
@@ -10,6 +18,11 @@ void Keypad_Init()
 }
 
 
+/**
+	Returns the pressed key.
+	This function halts the rest of the program, waiting for a key to be pressed. It only returns once a key was released.
+	@return The character corresponding to the the pressed key.
+*/
 char Keypad_WaitAndGetKey()
 {
     while (true) {

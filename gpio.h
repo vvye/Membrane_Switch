@@ -1,5 +1,5 @@
-/**
-    GPIO driver
+/*
+	The GPIO driver.
 */
 
 
